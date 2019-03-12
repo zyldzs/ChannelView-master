@@ -122,7 +122,7 @@ public class FriendsCircleImageLayout extends ViewGroup {
                 if (i==0){
                     childView.layout(0+i%2*space+i%2*currWidth,0,currWidth+i%2*space+i%2*currWidth,currWidth);
                 }else if (i==1||i==2){
-                    
+
                 }else {
                     childView.layout(0+i%2*space+i%2*currWidth,currWidth+space,currWidth+i%2*space+i%2*currWidth,2*currWidth+space);
                 }
