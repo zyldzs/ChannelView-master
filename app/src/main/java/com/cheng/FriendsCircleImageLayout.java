@@ -45,9 +45,9 @@ public class FriendsCircleImageLayout extends ViewGroup {
         } else if (count == 3) {
             height = (width - 2 * space) / 3 * 2 + space;
         } else if (count == 5) {
-            height = (width - 2 * space) / 3 * 3 + 2 * space;
+            height = (width - space) / 2 + space +(width - 2*space) / 3;
         } else if (count == 6) {
-            height = (width - 2 * space) / 3 * 2 + space;
+            height = width;
         } else if (count == 7) {
             height = width - space + 2 * space + (width - 2 * space) / 3;
         } else if (count == 8) {
@@ -71,9 +71,6 @@ public class FriendsCircleImageLayout extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
-//        Log.e("11111111", getWidth() + "@" + getHeight()+"@"+getPaddingLeft());
-//        Log.e("222222", getLeft() + "@" + getTop() + "@" + getRight() + "@" + getBottom());
-//        Log.e("222222", l + "@" + t + "@" + r + "@" + b);
         int width = getWidth();
         int height = getHeight();
         int indexWidth=0;//当前宽
@@ -115,20 +112,68 @@ public class FriendsCircleImageLayout extends ViewGroup {
                 }
             }
         }else if (childCount==5){
+            //每个大的宽高
+            int mincurrWidth=(getWidth()-space)/2;
+            //每个小的的宽高
+            int maxcurrWidth=(getWidth()-2*space)/3;
             for (int i = 0; i < childCount; i++) {
                 View childView = getChildAt(i);
-                //每个的宽高
-                int currWidth=(getWidth()-space)/2;
-                if (i==0){
-                    childView.layout(0+i%2*space+i%2*currWidth,0,currWidth+i%2*space+i%2*currWidth,currWidth);
-                }else if (i==1||i==2){
 
+                if (i<2){
+                    //前两个
+                    childView.layout(0+i%2*space+i%2*mincurrWidth,0,mincurrWidth+i%2*space+i%2*mincurrWidth,mincurrWidth);
                 }else {
-                    childView.layout(0+i%2*space+i%2*currWidth,currWidth+space,currWidth+i%2*space+i%2*currWidth,2*currWidth+space);
+                    childView.layout(0+i%3*space+i%3*maxcurrWidth,mincurrWidth+space,0+i%3*space+(i%3+1)*maxcurrWidth,getHeight());
+                }
+
+            }
+        }else if (childCount==6){
+            int currWidth=(getWidth()-2*space)/3;
+            for (int i = 0; i < childCount; i++) {
+                View childView = getChildAt(i);
+                //每个小的的宽高
+                if (i==0){
+                    childView.layout(0,0,getWidth()-space-currWidth,getWidth()-space-currWidth);
+                }else if (i==1||i==2){
+                    childView.layout(getWidth()-currWidth,0+(i-1)*space+(i-1)*currWidth,getWidth(),0+(i-1)*space+i*currWidth);
+                } else {
+                    childView.layout(0+i%3*space+i%3*currWidth,2*(currWidth+space),0+i%3*space+(i%3+1)*currWidth,getHeight());
                 }
             }
 
-        }else if (childCount==9){
+        }else if (childCount==7) {
+            //每个大的宽高
+            int maxcurrWidth=(getWidth()-space)/2;
+            //每个小的的宽高
+            int mincurrWidth=(getWidth()-2*space)/3;
+
+            for (int i = 0; i < childCount; i++) {
+                View childView = getChildAt(i);
+                if (i<2){
+                    childView.layout(0+i%2*space+i%2*maxcurrWidth,0,maxcurrWidth+i%2*space+i%2*maxcurrWidth,maxcurrWidth);
+                }else if (i>=2&&i<4){
+                    childView.layout(0+i%2*space+i%2*maxcurrWidth,maxcurrWidth+space,maxcurrWidth+i%2*space+i%2*maxcurrWidth,2*maxcurrWidth+space);
+                }else {
+                    childView.layout(0+i%3*space+i%3*mincurrWidth,2*(maxcurrWidth+space),0+i%3*space+(i%3+1)*mincurrWidth,getHeight());
+                }
+            }
+        }else if (childCount==8) {
+            //每个大的宽高
+            int maxcurrWidth=(getWidth()-space)/2;
+            //每个小的的宽高
+            int mincurrWidth=(getWidth()-2*space)/3;
+
+            for (int i = 0; i < childCount; i++) {
+                View childView = getChildAt(i);
+                if (i<2){
+                    childView.layout(0+i%2*space+i%2*maxcurrWidth,0,maxcurrWidth+i%2*space+i%2*maxcurrWidth,maxcurrWidth);
+                }else if (i>=2&&i<5){
+                    childView.layout(0+i%3*space+i%3*mincurrWidth,maxcurrWidth+space,0+i%3*space+(i%3+1)*mincurrWidth,maxcurrWidth+mincurrWidth+space);
+                }else {
+                    childView.layout(0+i%3*space+i%3*mincurrWidth,maxcurrWidth+mincurrWidth+2*space,0+i%3*space+(i%3+1)*mincurrWidth,getHeight());
+                }
+            }
+        } else if (childCount==9){
             for (int i = 0; i < childCount; i++) {
                 View childView = getChildAt(i);
                 //每个的宽高

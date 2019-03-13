@@ -22,7 +22,6 @@ public class Main2Activity extends AppCompatActivity {
         strings.add("3333");
         strings.add("3333");
         strings.add("3333");
-        strings.add("3333");
 
         FriendsCircleImageLayout imageLayout = (FriendsCircleImageLayout) findViewById(R.id.circle);
         imageLayout.setImageUrls( strings);
