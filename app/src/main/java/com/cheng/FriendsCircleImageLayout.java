@@ -8,9 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.MultiTransformation;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 import com.cheng.channelview.R;
 
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 /**
  * Created by zhaokun on 2019/3/12.
@@ -18,6 +24,10 @@ import java.util.List;
 
 public class FriendsCircleImageLayout extends ViewGroup {
     private final int space = 20;
+    //当只有一张图片的宽高
+    private int imageHeight;
+    private int imageWidth;
+    private RequestOptions mRequestOptions1;
 
 
     public FriendsCircleImageLayout(Context context) {
@@ -30,6 +40,12 @@ public class FriendsCircleImageLayout extends ViewGroup {
 
     public FriendsCircleImageLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init() {
+        mRequestOptions1 = RequestOptions.bitmapTransform(
+                new MultiTransformation(new RoundedCornersTransformation(32, 0, RoundedCornersTransformation.CornerType.ALL))).diskCacheStrategy(DiskCacheStrategy.ALL);
     }
 
     @Override
@@ -38,9 +54,20 @@ public class FriendsCircleImageLayout extends ViewGroup {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
 
-        if (count == 1 || count == 4 || count == 9) {
+        if (count == 1 ) {
+            double size = (double) imageWidth / imageHeight;
+            if (size >= (double) 16 / 9) {//1.777
+                height =width * 9 / 16;
+            } else if (size >= 1 && size < (double) 16 / 9) {
+               height = (int) (width / size);
+            } else if (size > (double) 9 / 16 && size < 1) {//0.5625
+                height = (int)(width / size);
+            } else if (size <= (double) 9 / 16) {
+                height = width * 16 / 9;
+            }
+        } else if(count == 4 || count == 9){
             height = width;
-        } else if (count == 2) {
+        }else if (count == 2) {
             height = (width - space) / 2;
         } else if (count == 3) {
             height = (width - 2 * space) / 3 * 2 + space;
@@ -55,17 +82,7 @@ public class FriendsCircleImageLayout extends ViewGroup {
         }
 
         super.onMeasure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
-//        final int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-//        if (heightMode == MeasureSpec.AT_MOST || heightMode == MeasureSpec.UNSPECIFIED) {
-//            heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
-//        }
-//
-//        final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-//        if (widthMode == MeasureSpec.AT_MOST || widthMode == MeasureSpec.UNSPECIFIED) {
-//            super.onMeasure(MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY), heightMeasureSpec);
-//        } else {
-//            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-//        }
+
     }
 
 
@@ -206,22 +223,25 @@ public class FriendsCircleImageLayout extends ViewGroup {
     /**
      * 显示图片
      */
-    public void setImageUrls(final List<String> imageUrls) {
+    public void setImageUrls(final List<String> imageUrls,int imageHeight,int imageWidth) {
+        this.imageHeight=imageHeight;
+        this.imageWidth=imageWidth;
         removeAllViews();
         if (imageUrls == null && imageUrls.size() == 0) {
             return;
         }
 
-        int count = imageUrls.size();
-
         for (int i = 0; i < imageUrls.size(); i++) {
             ImageView imageView = new ImageView(getContext());
-
-            imageView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
+            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            Glide.with(getContext())
+                    .load(imageUrls.get(i))
+                    .apply(mRequestOptions1)
+                    .into(imageView);
             addView(imageView);
             //点击查看大图
-
         }
+
     }
 
 }

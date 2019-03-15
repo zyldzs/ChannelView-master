@@ -14,16 +14,18 @@ public class Main2Activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         ArrayList<String> strings = new ArrayList<>();
-        strings.add("123456");
-        strings.add("3333");
-        strings.add("3333");
-        strings.add("3333");
-        strings.add("3333");
-        strings.add("3333");
-        strings.add("3333");
-        strings.add("3333");
+        strings.add("http://dopepic.yupfashion.cn/4365/20190314021336.052/1552500816Kb7c65La6XwlN360Mcse.png");
+        strings.add("http://dopepic.yupfashion.cn/4365/20190314021336.052/1552500816Kb7c65La6XwlN360Mcse.png");
+        strings.add("http://dopepic.yupfashion.cn/4365/20190314021336.052/1552500816Kb7c65La6XwlN360Mcse.png");
+        strings.add("http://dopepic.yupfashion.cn/4365/20190314021336.052/1552500816Kb7c65La6XwlN360Mcse.png");
+        strings.add("http://dopepic.yupfashion.cn/4365/20190314021336.052/1552500816Kb7c65La6XwlN360Mcse.png");
+        strings.add("http://dopepic.yupfashion.cn/4365/20190314021336.052/1552500816Kb7c65La6XwlN360Mcse.png");
+        strings.add("http://dopepic.yupfashion.cn/4365/20190314021336.052/1552500816Kb7c65La6XwlN360Mcse.png");
+        strings.add("http://dopepic.yupfashion.cn/4365/20190314021336.052/1552500816Kb7c65La6XwlN360Mcse.png");
+        strings.add("http://dopepic.yupfashion.cn/4365/20190314021336.052/1552500816Kb7c65La6XwlN360Mcse.png");
+
 
         FriendsCircleImageLayout imageLayout = (FriendsCircleImageLayout) findViewById(R.id.circle);
-        imageLayout.setImageUrls( strings);
+        imageLayout.setImageUrls( strings,90,110);
     }
 }
